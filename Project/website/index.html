@@ -24,6 +24,7 @@
                  }
              }
              xhr.open (oFormElement.method, oFormElement.action, true);
+             xhr.setRequestHeader('Content-Type', 'text/plain');
              var review = document.getElementById('review');
              xhr.send (review.value);
              return false;
@@ -37,7 +38,7 @@
             <h1>Is your review positive, or negative?</h1>
             <p>Enter your review below and click submit to find out...</p>
             <form method="POST"
-                  action="**REPLACE WITH PUBLIC API URL**"
+                  action="https://jvtzi61n7k.execute-api.us-east-2.amazonaws.com/prod/sentiment_analysis_func"
                   onsubmit="return submitForm(this);" >                     <!-- HERE IS WHERE YOU NEED TO ENTER THE API URL -->
                 <div class="form-group">
                     <label for="review">Review:</label>
