@@ -76,19 +76,15 @@ def train(model, train_loader, epochs, optimizer, loss_fn, device):
             batch_X = batch_X.to(device)
             batch_y = batch_y.to(device)
             
-            # TODO: Complete this train method to train the model provided.
-            # https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
-
             # zero the parameter gradients
             optimizer.zero_grad()
-            
+
             # forward + backward + optimize
             outputs = model.forward(batch_X)
             loss = loss_fn(outputs, batch_y)
             loss.backward()
             optimizer.step()
             
-            #total_loss += loss.data.item()
             total_loss += loss.item()
         print("Epoch: {}, BCELoss: {}".format(epoch, total_loss / len(train_loader)))
 

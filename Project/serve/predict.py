@@ -65,27 +65,8 @@ def predict_fn(input_data, model):
     if model.word_dict is None:
         raise Exception('Model has not been loaded properly, no word_dict.')
     
-    # TODO: Process input_data so that it is ready to be sent to our model.
-    #       You should produce two variables:
-    #         data_X   - A sequence of length 500 which represents the converted review
-    #         data_len - The length of the review
-
-    data_X = None
-    data_len = None
-    #data_X, data_len = convert_and_pad_data(model.word_dict, np.expand_dims(input_data, 0), pad=500)
-    #data_X, data_len = convert_and_pad(model.word_dict, np.expand_dims(input_data, 0), pad=500)
-    word_inverted_dict = {v:k for k, v in model.word_dict.items()}
-    #print(list(map(lambda c: word_inverted_dict[c], filter(lambda e: e > 1, data_X))))
-    
-    #TODO There is no convert_and_pad_data should use convert_and_pad instead
-    
-    #data_X = np.expand_dims(np.array(review_to_words(input_data)), axis=0)
-    #data_X, data_len = convert_and_pad_data(model.word_dict, data_X, pad=500)
-    #print(list(map(lambda c: word_inverted_dict[c], filter(lambda e: e > 1, np.squeeze(data_X)))))
-
     data_X = review_to_words(input_data)
     data_X, data_len = convert_and_pad(model.word_dict, data_X, pad=500)
-    print(list(map(lambda c: word_inverted_dict[c], filter(lambda e: e > 1, data_X[1:]))))
 
     # Using data_X and data_len we construct an appropriate input tensor. Remember
     # that our model expects input data of the form 'len, review[500]'.
@@ -98,10 +79,9 @@ def predict_fn(input_data, model):
     # Make sure to put the model into evaluation mode
     model.eval()
 
-    # TODO: Compute the result of applying the model to the input data. The variable `result` should
-    #       be a numpy array which contains a single integer which is either 1 or 0
-
     output = model(data)
+    
+    # format data into binary results
     result = output.data.cpu().numpy().round().astype(np.uint8)
 
     return result
